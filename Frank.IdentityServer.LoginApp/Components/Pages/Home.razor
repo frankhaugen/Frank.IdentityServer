@@ -1,0 +1,87 @@
+﻿@page "/"
+@using Duende.IdentityModel.Client
+@using Frank.IdentityServer.LoginApp.Models
+@using Microsoft.Extensions.Options
+
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject IOptions<LoginConfiguration> LoginConfiguration
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to a login page for IdentityServer.
+
+<EditForm Model="@this" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <InputText id="username" class="form-control" placeholder="Username" @bind-Value="@RedirectUri" />
+        <InputText id="password" type="password" class="form-control" placeholder="Password" @bind-Value="@RedirectUri" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@if(!string.IsNullOrWhiteSpace(ErrorMessage))
+{
+    <div class="alert alert-danger mt-3">
+        @ErrorMessage
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public string? RedirectUri { get; set; }
+    
+    public string? ErrorMessage { get; set; }
+    
+    public string? Username { get; set; }
+    public string? Password { get; set; }
+
+    // Get token from IdentityServer using the provided username and password and built in settings for the client.
+    private async Task HandleValidSubmit(EditContext arg)
+    {
+        if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+        {
+            ErrorMessage = "Username and password are required.";
+            return;
+        }
+
+        var discoveryDocument = await HttpClient.GetDiscoveryDocumentAsync();
+        if (discoveryDocument.IsError)
+        {
+            ErrorMessage = "Error retrieving discovery document: " + discoveryDocument.Error;
+            return;
+        }
+        
+        var tokenResponse = await HttpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
+        {
+            Address = discoveryDocument.TokenEndpoint,
+            ClientId = LoginConfiguration.Value.ClientId,
+            ClientSecret = LoginConfiguration.Value.ClientSecret,
+            Scope = LoginConfiguration.Value.Scope,
+            UserName = Username,
+            Password = Password
+        });
+        
+        if (tokenResponse.IsError)
+        {
+            ErrorMessage = "Error retrieving token: " + tokenResponse.Error;
+            return;
+        }
+
+        // If successful, redirect to the specified RedirectUri
+        if (!string.IsNullOrWhiteSpace(RedirectUri))
+        {
+            NavigationManager.NavigateTo(RedirectUri);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/LoggedIn");
+        }
+    }
+}

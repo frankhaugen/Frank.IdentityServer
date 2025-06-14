@@ -1,0 +1,59 @@
+@page "/authentication/login-callback"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<h3>Login Callback</h3>
+
+@if (IsAuthenticated)
+{
+    <p class="text-success">Login succeeded!</p>
+    <h5>User Claims:</h5>
+    <ul>
+        @foreach (var claim in Claims)
+        {
+            <li><strong>@claim.Type</strong>: @claim.Value</li>
+        }
+    </ul>
+    <h5>OIDC Properties (Tokens)</h5>
+    <p><em>Note: Access to raw tokens depends on your authentication setup. If using ASP.NET Core OIDC, tokens may be available via JS interop or a custom service.</em></p>
+    @if (!string.IsNullOrEmpty(AccessToken))
+    {
+        <p><strong>Access Token:</strong> <code>@AccessToken</code></p>
+    }
+    @if (!string.IsNullOrEmpty(IdToken))
+    {
+        <p><strong>ID Token:</strong> <code>@IdToken</code></p>
+    }
+}
+else
+{
+    <p class="text-danger">Login failed or you are not authenticated.</p>
+}
+
+@code {
+    private bool IsAuthenticated;
+    private IEnumerable<System.Security.Claims.Claim> Claims = Enumerable.Empty<System.Security.Claims.Claim>();
+    private string? AccessToken;
+    private string? IdToken;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        IsAuthenticated = user.Identity?.IsAuthenticated ?? false;
+        if (IsAuthenticated)
+        {
+            Claims = user.Claims;
+            // Try to get tokens from the URL if present (for OIDC implicit/hybrid flows)
+            var uri = new Uri(NavigationManager.Uri);
+            var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+            if (query.TryGetValue("access_token", out var at))
+                AccessToken = at;
+            if (query.TryGetValue("id_token", out var it))
+                IdToken = it;
+            // If tokens are not in the query, you may need to get them from a custom service or JS interop
+        }
+    }
+}
+
