@@ -9,13 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Aspire
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Aspire.ServiceDefaults", "Frank.IdentityServer.Aspire.ServiceDefaults\Frank.IdentityServer.Aspire.ServiceDefaults.csproj", "{5E4A3068-EE3D-41C1-90F1-AE85BA26AE38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Clients.AvaloniaClientApp", "Frank.IdentityServer.Clients.AvaloniaClientApp\Frank.IdentityServer.Clients.AvaloniaClientApp.csproj", "{6376B698-3383-40B7-851D-60E617B2FF9F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Clients.MauiClientApp", "Frank.IdentityServer.Clients.MauiClientApp\Frank.IdentityServer.Clients.MauiClientApp.csproj", "{212FD0AF-4A14-4CEA-BF0E-EFA8E225DCF8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.LoginApp", "Frank.IdentityServer.LoginApp\Frank.IdentityServer.LoginApp.csproj", "{B226399B-FA34-4326-99FA-17E9F685FFE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Clients.BlazorClientApp", "Frank.IdentityServer.Clients.BlazorClientApp\Frank.IdentityServer.Clients.BlazorClientApp.csproj", "{1D469356-2E6D-4C26-989C-A85109B0F202}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Clients.BlazorClientApp", "Frank.IdentityServer.Clients.BlazorClientApp\Frank.IdentityServer.Clients.BlazorClientApp.csproj", "{E02C6128-F4DE-4F80-8032-E49CF1324AB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,22 +34,14 @@ Global
 		{5E4A3068-EE3D-41C1-90F1-AE85BA26AE38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E4A3068-EE3D-41C1-90F1-AE85BA26AE38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E4A3068-EE3D-41C1-90F1-AE85BA26AE38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6376B698-3383-40B7-851D-60E617B2FF9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6376B698-3383-40B7-851D-60E617B2FF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6376B698-3383-40B7-851D-60E617B2FF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6376B698-3383-40B7-851D-60E617B2FF9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{212FD0AF-4A14-4CEA-BF0E-EFA8E225DCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{212FD0AF-4A14-4CEA-BF0E-EFA8E225DCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{212FD0AF-4A14-4CEA-BF0E-EFA8E225DCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{212FD0AF-4A14-4CEA-BF0E-EFA8E225DCF8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B226399B-FA34-4326-99FA-17E9F685FFE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B226399B-FA34-4326-99FA-17E9F685FFE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B226399B-FA34-4326-99FA-17E9F685FFE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B226399B-FA34-4326-99FA-17E9F685FFE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D469356-2E6D-4C26-989C-A85109B0F202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D469356-2E6D-4C26-989C-A85109B0F202}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D469356-2E6D-4C26-989C-A85109B0F202}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D469356-2E6D-4C26-989C-A85109B0F202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E02C6128-F4DE-4F80-8032-E49CF1324AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E02C6128-F4DE-4F80-8032-E49CF1324AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E02C6128-F4DE-4F80-8032-E49CF1324AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E02C6128-F4DE-4F80-8032-E49CF1324AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

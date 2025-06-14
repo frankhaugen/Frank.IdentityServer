@@ -1,3 +1,5 @@
+using BitzArt.Blazor.Cookies;
+using Blazored.LocalStorage;
 using Frank.IdentityServer.LoginApp.Components;
 using Frank.IdentityServer.LoginApp.Components.Pages;
 
@@ -9,10 +11,18 @@ builder.AddServiceDefaults();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient<Home>(x =>
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddBlazoredLocalStorage();
+builder.AddBlazorCookies();
+
+builder.Services.AddHttpClient();
+builder.Services.ConfigureHttpClientDefaults(x =>
 {
     // Configure the HttpClient for the Home component
-    x.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "https://localhost:6001");
+    x.ConfigureHttpClient(y =>
+    {
+        y.BaseAddress = new Uri(builder.Configuration["LoginConfiguration:Authority"] ?? "https://localhost:6001");
+    });
 });
 
 var app = builder.Build();

@@ -1,7 +1,55 @@
 ﻿@page "/"
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Welcome!</h1>
 
-Welcome to your new app.
+<p>
+    This application uses the identity resources and authentication services provided by the solution.
+</p>
+
+<p>
+    To access protected resources, please log in using OpenID Connect and OAuth 2.1 via the IdentityServer:
+</p>
+
+<button class="btn btn-primary" @onclick="GoToLoginAsync">Login with IdentityServer</button>
+
+@if (IsAuthenticated)
+{
+    <p>
+        You are authenticated.
+    </p>
+    <p>
+        You can now access protected resources in the solution.
+    </p>
+}
+else
+{
+    <p>
+        You are not authenticated. Please log in to access solution resources.
+    </p>
+}
+
+@code {
+    [Inject] NavigationManager NavigationManager { get; set; }
+    [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    
+    private bool IsAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        IsAuthenticated = authState.User.Identity?.IsAuthenticated ?? false;
+        StateHasChanged();
+    }
+
+    private void GoToLoginAsync()
+    {
+        // Update this URL to match your IdentityServer login endpoint and callback
+        var redirectUri = NavigationManager.BaseUri.TrimEnd('/') + "/authentication/login-callback";
+        var loginUrl = $"https://localhost:5501/?redirectUri={Uri.EscapeDataString(redirectUri)}";
+        NavigationManager.NavigateTo(loginUrl, forceLoad: true);
+    }
+}

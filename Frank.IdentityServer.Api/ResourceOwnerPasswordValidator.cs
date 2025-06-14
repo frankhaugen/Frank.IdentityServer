@@ -7,9 +7,6 @@ internal class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
 {
     public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
     {
-        // Here you would typically validate the user credentials against a database or other user store.
-        // For demonstration purposes, we will use hardcoded values.
-
         if (context.UserName == "alice" && context.Password == "alice")
         {
             context.Result = new GrantValidationResult(subject: "1", authenticationMethod: "custom");

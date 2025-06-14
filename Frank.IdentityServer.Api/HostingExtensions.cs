@@ -1,8 +1,3 @@
-using Duende.IdentityServer;
-using Frank.IdentityServer.Api;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Serilog;
-
 namespace Frank.IdentityServer.Api;
 
 internal static class HostingExtensions
@@ -20,6 +15,9 @@ internal static class HostingExtensions
 
                 // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                 options.EmitStaticAudienceClaim = true;
+
+                // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/#state-hashing
+                options.EmitStateHash = true;
             })
             .AddDeveloperSigningCredential() // this is for development only, don't use in production
             .AddTestUsers(TestUsers.Users);
@@ -31,7 +29,6 @@ internal static class HostingExtensions
         
         // Grant validation
         isBuilder.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
-
 
         // if you want to use server-side sessions: https://blog.duendesoftware.com/posts/20220406_session_management/
         // then enable it
@@ -45,7 +42,6 @@ internal static class HostingExtensions
         //builder.Services.Configure<RazorPagesOptions>(options =>
         //    options.Conventions.AuthorizeFolder("/ServerSideSessions", "admin"));
 
-
         builder.Services.AddAuthentication();
 
         return builder.Build();
@@ -53,8 +49,6 @@ internal static class HostingExtensions
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
-        app.UseSerilogRequestLogging();
-
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();

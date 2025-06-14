@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Frank.IdentityServer.Api\Frank.IdentityServer.Api.csproj" />
+      <ProjectReference Include="..\Frank.IdentityServer.Clients.BlazorClientApp\Frank.IdentityServer.Clients.BlazorClientApp.csproj" />
       <ProjectReference Include="..\Frank.IdentityServer.LoginApp\Frank.IdentityServer.LoginApp.csproj" />
     </ItemGroup>
 
