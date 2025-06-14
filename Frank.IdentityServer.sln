@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.LoginA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Clients.BlazorClientApp", "Frank.IdentityServer.Clients.BlazorClientApp\Frank.IdentityServer.Clients.BlazorClientApp.csproj", "{E02C6128-F4DE-4F80-8032-E49CF1324AB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.IdentityServer.Clients.MauiClientApp", "Frank.IdentityServer.Clients.MauiClientApp\Frank.IdentityServer.Clients.MauiClientApp.csproj", "{50986F2E-554B-4A6C-82D2-C28EC9D4DADF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{E02C6128-F4DE-4F80-8032-E49CF1324AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E02C6128-F4DE-4F80-8032-E49CF1324AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E02C6128-F4DE-4F80-8032-E49CF1324AB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50986F2E-554B-4A6C-82D2-C28EC9D4DADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50986F2E-554B-4A6C-82D2-C28EC9D4DADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50986F2E-554B-4A6C-82D2-C28EC9D4DADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50986F2E-554B-4A6C-82D2-C28EC9D4DADF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

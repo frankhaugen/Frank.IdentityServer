@@ -10,6 +10,7 @@
       <PackageReference Include="BitzArt.Blazor.Cookies.Server" Version="1.5.0" />
       <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
       <PackageReference Include="Duende.IdentityModel.OidcClient" Version="6.0.1" />
+      <PackageReference Include="Microsoft.IdentityModel.Logging" Version="8.12.0" />
     </ItemGroup>
 
     <ItemGroup>

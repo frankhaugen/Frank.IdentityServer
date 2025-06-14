@@ -57,7 +57,8 @@ public static class Config
                 RequireClientSecret = false,
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 ClientSecrets = {new Secret("A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6".Sha256())},
-                AllowedScopes = {"openid", "profile", "scope1", "scope2"}
+                AllowedScopes = {"openid", "profile", "scope1", "scope2", "offline_access"},
+                AllowOfflineAccess = true
             }
         };
 }

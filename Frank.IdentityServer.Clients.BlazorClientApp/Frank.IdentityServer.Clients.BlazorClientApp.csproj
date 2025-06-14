@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Frank.IdentityServer.Aspire.ServiceDefaults\Frank.IdentityServer.Aspire.ServiceDefaults.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.6" />
+    </ItemGroup>
+
 </Project>

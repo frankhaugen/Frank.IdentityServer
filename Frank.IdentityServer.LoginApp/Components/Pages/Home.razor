@@ -74,30 +74,16 @@ Welcome to a login page for IdentityServer.
         {
             Address = discoveryDocument.TokenEndpoint,
             ClientId = LoginConfiguration.Value.ClientId,
-            ClientSecret = LoginConfiguration.Value.ClientSecret,
             Scope = LoginConfiguration.Value.Scope,
-            ClientCredentialStyle = ClientCredentialStyle.PostBody,
             UserName = Username,
             Password = Password
         });
         
         if (tokenResponse.IsError)
         {
-            ErrorMessage = "Error retrieving token: " + tokenResponse.Error;
+            ErrorMessage = "Error retrieving token: " + tokenResponse.Error + " - " + tokenResponse.ErrorDescription + " - " + tokenResponse.ErrorType;
             return;
         }
-        
-        // Store the token in the way oidc expects it, e.g., in local storage or session storage, or as Oauth2 expects it.
-        await LocalStorage.SetItemAsync("access_token", tokenResponse.AccessToken);
-        await LocalStorage.SetItemAsync("id_token", tokenResponse.IdentityToken);
-        await LocalStorage.SetItemAsync("refresh_token", tokenResponse.RefreshToken);
-        await LocalStorage.SetItemAsync("expires_at", DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn).ToString("o"));
-        await LocalStorage.SetItemAsync("token_type", tokenResponse.TokenType);
-        
-        // Optionally, store the tokens in cookies if needed
-        await CookieService.SetAsync("access_token", tokenResponse.AccessToken, DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn));
-        await CookieService.SetAsync("id_token", tokenResponse.IdentityToken, DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn));
-        await CookieService.SetAsync("refresh_token", tokenResponse.RefreshToken, DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn));
 
         // Use Duende IdentityModel to emulate the behavior of an OIDC server to set the cookies and tokens
         
@@ -108,24 +94,41 @@ Welcome to a login page for IdentityServer.
             RedirectUri = RedirectUri ?? "/LoggedIn"
         };
         
-        var claims = new List<Claim>
+        var claims = new List<Claim>()
         {
-            new Claim("access_token", tokenResponse.AccessToken),
-            new Claim("id_token", tokenResponse.IdentityToken),
-            new Claim("refresh_token", tokenResponse.RefreshToken),
-            new Claim("expires_at", DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn).ToString("o")),
-            new Claim("token_type", tokenResponse.TokenType)
+            new Claim(ClaimTypes.Name, Username ?? "Unknown"),
+            new Claim(ClaimTypes.AuthenticationMethod, "password")
         };
+
+        if (!string.IsNullOrEmpty(tokenResponse.RefreshToken))
+        {
+            claims.Add(new Claim("refresh_token", tokenResponse.RefreshToken));
+        }
         
         var claimsIdentity = new ClaimsIdentity(claims, "oidc");
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
         
-        // Sign in the user with the token
-        await HttpContextAccessor.HttpContext!.SignInAsync(
-            "oidc",
-            claimsPrincipal,
-            authenticationProperties);
+        // Store the token in the way oidc expects it, e.g., in local storage or session storage, or as Oauth2 expects it.
+        await LocalStorage.SetItemAsync("access_token", tokenResponse.AccessToken);
+        await LocalStorage.SetItemAsync("id_token", tokenResponse.IdentityToken);
+        await LocalStorage.SetItemAsync("refresh_token", tokenResponse.RefreshToken);
+        await LocalStorage.SetItemAsync("expires_at", DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn).ToString("o"));
+        await LocalStorage.SetItemAsync("token_type", tokenResponse.TokenType);
         
+        // Store the tokens in cookies as if SignInAsync has been called successfully, so that the application behaves as if the user is signed in.
+        var oidcCookie = new Cookie(
+            "oidc",
+            $"{tokenResponse.AccessToken}|{tokenResponse.IdentityToken}",
+            DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn));
+        await CookieService.SetAsync(oidcCookie);
+
+        // set session cookies for access and id tokens
+        var sessionCookie = new Cookie(
+            "oidc.session",
+            "true",
+            DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn));
+        await CookieService.SetAsync(sessionCookie);
+
         // If successful, redirect to the specified RedirectUri
         if (!string.IsNullOrWhiteSpace(RedirectUri))
         {

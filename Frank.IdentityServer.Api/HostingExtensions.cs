@@ -1,9 +1,18 @@
+using Duende.IdentityModel;
+using Duende.IdentityServer.Configuration;
+using Frank.IdentityServer.Api.Middleware;
+using Microsoft.IdentityModel.Logging; // Add this using statement
+
 namespace Frank.IdentityServer.Api;
 
 internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+        // PII in logging is useful for debugging, but should be disabled in production:        
+        IdentityModelEventSource.ShowPII = true;
+        IdentityModelEventSource.LogCompleteSecurityArtifact = true;
+
         builder.Services.AddRazorPages();
 
         var isBuilder = builder.Services.AddIdentityServer(options =>
@@ -49,6 +58,8 @@ internal static class HostingExtensions
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        app.MapDefaultEndpoints();
+        app.UseRequestResponseLogging(); // Add this line early in the pipeline
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -58,8 +69,6 @@ internal static class HostingExtensions
         app.UseRouting();
         app.UseIdentityServer();
         app.UseAuthorization();
-
-        app.MapDefaultEndpoints();
 
         // app.MapRazorPages()
         //     .RequireAuthorization();
