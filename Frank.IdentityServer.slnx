@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Frank.IdentityServer.Api/Frank.IdentityServer.Api.csproj" />
+  <Project Path="Frank.IdentityServer.Aspire.AppHost/Frank.IdentityServer.Aspire.AppHost.csproj" />
+  <Project Path="Frank.IdentityServer.Aspire.ServiceDefaults/Frank.IdentityServer.Aspire.ServiceDefaults.csproj" />
+  <Project Path="Frank.IdentityServer.Clients.BlazorClientApp/Frank.IdentityServer.Clients.BlazorClientApp.csproj" />
+  <Project Path="Frank.IdentityServer.Clients.MauiClientApp/Frank.IdentityServer.Clients.MauiClientApp.csproj" />
+  <Project Path="Frank.IdentityServer.LoginApp/Frank.IdentityServer.LoginApp.csproj" />
+</Solution>
